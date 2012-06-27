@@ -34,6 +34,7 @@
          "requires" : {
             "DateTime" : "0",
             "DateTime::Event::Cron" : "0",
+            "DateTime::TimeZone" : "0",
             "EV" : "0",
             "Params::Validate" : "0",
             "perl" : "5.010"
@@ -46,5 +47,5 @@
          "url" : "https://github.com/losyme/EV-Cron"
       }
    },
-   "version" : "0.01"
+   "version" : "0.02"
 }

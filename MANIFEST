@@ -9,6 +9,7 @@ t/00_start.t
 t/01_prerequisites.t
 t/02_load.t
 t/03_api.t
+t/04_basic.t
 t/98_distribution.t
 t/98_manifest.t
 t/98_pod-coverage.t

@@ -12,7 +12,7 @@ package EV::Cron;
 use strict;
 use warnings;
 
-our $VERSION   =   '0.01';
+our $VERSION   =   '0.02';
 our $AUTHORITY = 'LOSYME';
 
 use feature qw(state);
@@ -26,6 +26,8 @@ BEGIN
     no strict 'refs';
     foreach my $function (qw(cron cron_ns)) { *{ "EV::$function" } = *{ "EV::Cron::$function" }; }
 }
+
+my $local_TZ = DateTime::TimeZone::Local->TimeZone();
 
 ##--------------------------------------------------------------------------------------------------------------------##
 sub _add_watcher
@@ -53,7 +55,7 @@ sub _add_watcher
                {
                    my ($watcher, $now) = @_;
                    state $dt_event = DateTime::Event::Cron->new($params{cron});
-                   return $dt_event->next(DateTime->from_epoch(epoch => $now))->epoch;
+                   return $dt_event->next(DateTime->from_epoch(epoch => $now, time_zone => $local_TZ))->epoch;
                } ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
            ,   $params{cb}
            );
@@ -130,10 +132,6 @@ The C<cron_ns> variant doesn't start (activate) the newly created watcher.
 =head1 SEE ALSO
 
 L<EV>
-
-=head1 TODO
-
-Add some tests for version 0.02
 
 =head1 AUTHOR
 

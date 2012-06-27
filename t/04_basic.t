@@ -3,17 +3,24 @@
 ##----- LOSYME
 ##----- EV::Cron
 ##----- Add crontab watcher into EV 
-##----- Changes
+##----- 04_basic.t
 ##
 ########################################################################################################################
 
-Revision history
-----------------
+use strict;
+use warnings;
 
-0.01    23.04.2012
-        First version, released by LOSYME
-        
-0.02    27.06.2012
-        Use 'local' time zone, new prerequisite 'DateTime::TimeZone'
+use Test::More;
+use EV;
+use EV::Cron;
+
+my $count = 1;
+plan(tests => $count + 1);
+
+my @watchers;
+push @watchers, EV::cron '* * * * *', sub { pass('callback'); EV::break unless --$count; };
+EV::run;
+
+ok(1);
 
 ####### END ############################################################################################################

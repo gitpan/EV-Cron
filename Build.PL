@@ -29,6 +29,7 @@ Module::Build->new(
           'perl'                  => 5.010
         , 'EV'                    => 0
         , 'DateTime'              => 0
+        , 'DateTime::TimeZone'    => 0
         , 'DateTime::Event::Cron' => 0
         , 'Params::Validate'      => 0
       } 
