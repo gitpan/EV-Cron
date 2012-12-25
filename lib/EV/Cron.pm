@@ -1,19 +1,20 @@
-#######
-##
-##----- LOSYME
-##----- EV::Cron
-##----- Add crontab watcher into EV 
-##----- Cron.pm
-##
-########################################################################################################################
-
-package EV::Cron;
+#
+# This file is part of EV-Cron
+#
+# This software is copyright (c) 2012 by Loïc TROCHET.
+#
+# This is free software; you can redistribute it and/or modify it under
+# the same terms as the Perl 5 programming language system itself.
+#
 
 use strict;
 use warnings;
 
-our $VERSION   =   '0.02';
-our $AUTHORITY = 'LOSYME';
+package EV::Cron;
+{
+  $EV::Cron::VERSION = '0.123600';
+}
+# ABSTRACT: Add crontab watcher into EV
 
 use feature qw(state);
 use EV;
@@ -29,7 +30,6 @@ BEGIN
 
 my $local_TZ = DateTime::TimeZone::Local->TimeZone();
 
-##--------------------------------------------------------------------------------------------------------------------##
 sub _add_watcher
 {
     my %params = validate
@@ -51,23 +51,23 @@ sub _add_watcher
            (
                0
            ,   0
-           ,   sub ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+           ,   sub #-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
                {
                    my ($watcher, $now) = @_;
                    state $dt_event = DateTime::Event::Cron->new($params{cron});
                    return $dt_event->next(DateTime->from_epoch(epoch => $now, time_zone => $local_TZ))->epoch;
-               } ##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+               } #-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
            ,   $params{cb}
            );
 }
 
-##--------------------------------------------------------------------------------------------------------------------##
+
 sub cron
 {
     return _add_watcher(start => 1, cron => $_[0], cb => $_[1]);
 }
 
-##--------------------------------------------------------------------------------------------------------------------##
+
 sub cron_ns
 {
     return _add_watcher(start => 0, cron => $_[0], cb => $_[1]);
@@ -81,11 +81,11 @@ __END__
 
 =head1 NAME
 
-EV::Cron - Add crontab watcher into EV.
+EV::Cron - Add crontab watcher into EV
 
 =head1 VERSION
 
-Version 0.01
+version 0.123600
 
 =head1 SYNOPSIS
 
@@ -107,7 +107,7 @@ This module extends L<EV> by adding an easy way to specify event schedules using
 
 =head1 METHODS
 
-=head2 EV::cron($cronspec, $callback)
+=head2 cron($cronspec, $callback)
 
 Calls the callback when the event schedules using a crontab line format occurs.
 
@@ -124,8 +124,8 @@ C<$callback> - CODEREF - The callback.
 The newly created watcher.
 
 =back
-    
-=head2 EV::cron_ns($cronspec, $callback)
+
+=head2 cron_ns($cronspec, $callback)
 
 The C<cron_ns> variant doesn't start (activate) the newly created watcher.
 
@@ -133,20 +133,17 @@ The C<cron_ns> variant doesn't start (activate) the newly created watcher.
 
 L<EV>
 
+=encoding utf8
+
 =head1 AUTHOR
 
-LoE<iuml>c TROCHET E<lt>losyme@gmail.comE<gt>
-
-Repository available at L<https://github.com/losyme/EV-Cron>.
+Loïc TROCHET <losyme@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2012 by LoE<iuml>c TROCHET.
+This software is copyright (c) 2012 by Loïc TROCHET.
 
-This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
-
-See L<http://dev.perl.org/licenses/> for more information.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-####### END ############################################################################################################
